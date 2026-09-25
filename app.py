@@ -216,6 +216,7 @@ st.markdown(
 # ============================================================
 
 places = pd.DataFrame({
+
     "Lugar": [
         "New York",
         "Connecticut",
@@ -247,14 +248,35 @@ places = pd.DataFrame({
 
 
 # ============================================================
+# COLORES DE LOS LUGARES
+# ============================================================
+
+place_colors = {
+
+    "New York": "#00BFFF",
+
+    "Connecticut": "#2ECC71",
+
+    "Madrid": "#FF9F43",
+
+    "La Paz, BCS": "#FF4FA3"
+}
+
+
+# ============================================================
 # MAPA INTERACTIVO
 # ============================================================
 
 fig = px.scatter_geo(
+
     places,
 
     lat="Latitud",
     lon="Longitud",
+
+    color="Lugar",
+
+    color_discrete_map=place_colors,
 
     hover_name="Lugar",
 
@@ -266,60 +288,105 @@ fig = px.scatter_geo(
 
     size="Fotografías",
 
+    size_max=24,
+
     projection="natural earth"
 )
 
 
 # ============================================================
-# DISEÑO DEL MAPA
+# ESTILO DEL MAPA
 # ============================================================
 
 fig.update_geos(
 
     showland=True,
-    landcolor="#1b222b",
+    landcolor="#202833",
 
     showocean=True,
-    oceancolor="#0e1117",
+    oceancolor="#0E1117",
+
+    showlakes=True,
+    lakecolor="#111827",
 
     showcountries=True,
-    countrycolor="#3a424c",
+    countrycolor="#59636F",
 
     showcoastlines=True,
-    coastlinecolor="#4b5563",
+    coastlinecolor="#687482",
 
-    bgcolor="#0e1117"
+    bgcolor="#0E1117"
 )
 
+
+# ============================================================
+# ESTILO DE LOS PUNTOS
+# ============================================================
 
 fig.update_traces(
 
     marker=dict(
+
         line=dict(
-            width=1,
+            width=1.5,
             color="white"
-        )
+        ),
+
+        opacity=0.9
     )
 )
 
 
+# ============================================================
+# DISEÑO GENERAL DEL MAPA
+# ============================================================
+
 fig.update_layout(
 
-    height=520,
+    height=540,
 
     margin=dict(
         l=0,
         r=0,
-        t=10,
-        b=0
+        t=20,
+        b=10
     ),
 
-    paper_bgcolor="#0e1117",
-    plot_bgcolor="#0e1117",
+    paper_bgcolor="#0E1117",
+
+    plot_bgcolor="#0E1117",
 
     font=dict(
         color="white"
+    ),
+
+    legend=dict(
+
+        title="Places",
+
+        orientation="h",
+
+        yanchor="bottom",
+        y=0.01,
+
+        xanchor="center",
+        x=0.5,
+
+        bgcolor="rgba(14,17,23,0.75)"
     )
+)
+
+
+# ============================================================
+# PERSONALIZAR HOVER
+# ============================================================
+
+fig.update_traces(
+
+    hovertemplate=
+        "<b>%{hovertext}</b><br>"
+        "Photographs: %{marker.size}"
+        "<extra></extra>"
 )
 
 
@@ -328,8 +395,11 @@ fig.update_layout(
 # ============================================================
 
 st.plotly_chart(
+
     fig,
+
     use_container_width=True,
+
     config={
         "displayModeBar": False
     }
