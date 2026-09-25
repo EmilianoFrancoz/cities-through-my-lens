@@ -1,5 +1,6 @@
 import streamlit as st
 import base64
+import textwrap
 
 # --------------------------------
 # CONFIGURACIÓN DE LA PÁGINA
@@ -11,7 +12,6 @@ st.set_page_config(
     layout="wide"
 )
 
-
 # --------------------------------
 # CARGAR IMAGEN
 # --------------------------------
@@ -20,88 +20,82 @@ def get_base64_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode()
 
-
 img = get_base64_image("DSC_0081.jpeg")
 
-
 # --------------------------------
-# DISEÑO HERO
+# ESTILOS
 # --------------------------------
 
 st.markdown(
     f"""
-    <style>
+<style>
+.hero {{
+    height: 420px;
+    border-radius: 18px;
 
-    /* Contenedor principal de la portada */
-    .hero {{
-        height: 420px;
-        border-radius: 18px;
+    background-image:
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.78) 0%,
+            rgba(0, 0, 0, 0.45) 45%,
+            rgba(0, 0, 0, 0.05) 100%
+        ),
+        url("data:image/jpeg;base64,{img}");
 
-        background-image:
-            linear-gradient(
-                90deg,
-                rgba(0, 0, 0, 0.78) 0%,
-                rgba(0, 0, 0, 0.45) 45%,
-                rgba(0, 0, 0, 0.05) 100%
-            ),
-            url("data:image/jpeg;base64,{img}");
+    background-size: cover;
+    background-position: center 55%;
 
-        background-size: cover;
-        background-position: center 55%;
+    display: flex;
+    align-items: center;
 
-        display: flex;
-        align-items: center;
+    padding: 0 60px;
+    margin-bottom: 25px;
 
-        padding: 0 60px;
-        margin-bottom: 25px;
+    box-sizing: border-box;
+}}
 
-        box-sizing: border-box;
-    }}
+.hero-content {{
+    max-width: 650px;
+}}
 
+.hero-title {{
+    color: white !important;
+    font-size: 58px !important;
+    font-weight: 700 !important;
+    line-height: 1.05 !important;
+    letter-spacing: -1px;
+    margin: 0 !important;
+}}
 
-    /* Área donde está el texto */
-    .hero-content {{
-        max-width: 650px;
-    }}
+.hero-subtitle {{
+    color: rgba(255, 255, 255, 0.88) !important;
+    font-size: 18px !important;
+    margin-top: 18px !important;
+}}
+</style>
+""",
+    unsafe_allow_html=True
+)
 
+# --------------------------------
+# HERO
+# --------------------------------
 
-    /* Título principal */
-    .hero-title {{
-        color: white;
-        font-size: 58px;
-        font-weight: 700;
-        line-height: 1.05;
-        letter-spacing: -1px;
-        margin: 0;
-    }}
-
-
-    /* Subtítulo */
-    .hero-subtitle {{
-        color: rgba(255, 255, 255, 0.88);
-        font-size: 18px;
-        margin-top: 18px;
-    }}
-
-    </style>
-
-
-    <div class="hero">
-
-        <div class="hero-content">
-
-            <h1 class="hero-title">
-                CITIES<br>
-                THROUGH MY LENS
-            </h1>
-
-            <p class="hero-subtitle">
-                A visual journey through the places I've photographed.
-            </p>
-
-        </div>
-
+hero_html = """
+<div class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">
+            CITIES<br>
+            THROUGH MY LENS
+        </h1>
+        <p class="hero-subtitle">
+            A visual journey through the places I've photographed.
+        </p>
     </div>
-    """,
+</div>
+"""
+
+st.markdown(
+    textwrap.dedent(hero_html),
     unsafe_allow_html=True
 )
