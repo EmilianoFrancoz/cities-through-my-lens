@@ -109,7 +109,7 @@ st.markdown(
 }}
 
 
-/* Centrar nombre de la métrica */
+/* Centrar nombre */
 
 [data-testid="stMetricLabel"] {{
     justify-content: center;
@@ -127,6 +127,29 @@ st.markdown(
 
 [data-testid="stMetric"] > div {{
     text-align: center;
+}}
+
+
+/* ---------------- SECCIÓN JOURNEY ---------------- */
+
+.journey-title {{
+    color: white !important;
+
+    font-size: 34px !important;
+    font-weight: 700 !important;
+
+    margin-top: 50px !important;
+    margin-bottom: 5px !important;
+}}
+
+
+.journey-subtitle {{
+    color: #a9b1ba !important;
+
+    font-size: 16px !important;
+
+    margin-top: 0 !important;
+    margin-bottom: 25px !important;
 }}
 
 </style>
@@ -153,13 +176,12 @@ st.markdown(
 # MÉTRICAS PRINCIPALES
 # ============================================================
 
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3 = st.columns(3)
 
 
 # 50 FOTOGRAFÍAS
 
 with col1:
-
     st.metric(
         label="📷 Fotografías",
         value="50"
@@ -169,7 +191,6 @@ with col1:
 # 4 LUGARES
 
 with col2:
-
     st.metric(
         label="📍 Lugares",
         value="4"
@@ -179,18 +200,22 @@ with col2:
 # 4 CATEGORÍAS
 
 with col3:
-
     st.metric(
         label="🖼️ Categorías",
         value="4"
     )
 
 
-# 1 HISTORIA VISUAL
+# ============================================================
+# EXPLORE THE JOURNEY
+# ============================================================
 
-with col4:
+journey_html = """
+<h2 class="journey-title">Explore the Journey</h2>
+<p class="journey-subtitle">Discover the places behind the photographs.</p>
+"""
 
-    st.metric(
-        label="✨ Historia visual",
-        value="1"
-    )
+st.markdown(
+    textwrap.dedent(journey_html),
+    unsafe_allow_html=True
+)
