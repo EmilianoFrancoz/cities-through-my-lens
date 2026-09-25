@@ -248,6 +248,22 @@ places = pd.DataFrame({
 
 
 # ============================================================
+# COLORES DE CADA LUGAR
+# ============================================================
+
+place_colors = {
+
+    "New York": "#00BFFF",
+
+    "Connecticut": "#2ECC71",
+
+    "Madrid": "#FF9F43",
+
+    "La Paz, BCS": "#FF4FA3"
+}
+
+
+# ============================================================
 # MAPA INTERACTIVO
 # ============================================================
 
@@ -258,6 +274,12 @@ fig = px.scatter_geo(
     lat="Latitud",
     lon="Longitud",
 
+    # Cada lugar tendrá un color diferente
+    color="Lugar",
+
+    color_discrete_map=place_colors,
+
+    # Información al pasar el cursor
     hover_name="Lugar",
 
     hover_data={
@@ -266,6 +288,7 @@ fig = px.scatter_geo(
         "Longitud": False
     },
 
+    # El tamaño representa la cantidad de fotografías
     size="Fotografías",
 
     size_max=25,
@@ -292,7 +315,7 @@ fig.update_geos(
     showlakes=True,
     lakecolor="#173A5E",
 
-    # Fronteras entre países
+    # Fronteras
     showcountries=True,
     countrycolor="#A9C5C7",
 
@@ -300,20 +323,18 @@ fig.update_geos(
     showcoastlines=True,
     coastlinecolor="#D1E3E4",
 
-    # Fondo
+    # Fondo general
     bgcolor="#0E1117"
 )
 
 
 # ============================================================
-# DISEÑO DE LOS PUNTOS
+# ESTILO DE LOS PUNTOS
 # ============================================================
 
 fig.update_traces(
 
     marker=dict(
-
-        color="#38BDF8",
 
         opacity=0.95,
 
@@ -321,12 +342,6 @@ fig.update_traces(
             width=2,
             color="white"
         )
-    ),
-
-    hovertemplate=(
-        "<b>%{hovertext}</b><br>"
-        "Fotografías: %{marker.size}"
-        "<extra></extra>"
     )
 )
 
@@ -342,8 +357,8 @@ fig.update_layout(
     margin=dict(
         l=0,
         r=0,
-        t=10,
-        b=0
+        t=20,
+        b=10
     ),
 
     paper_bgcolor="#0E1117",
@@ -354,7 +369,21 @@ fig.update_layout(
         color="white"
     ),
 
-    showlegend=False
+    # Leyenda
+    legend=dict(
+
+        title="Lugares",
+
+        orientation="h",
+
+        yanchor="bottom",
+        y=0.01,
+
+        xanchor="center",
+        x=0.5,
+
+        bgcolor="rgba(14, 17, 23, 0.75)"
+    )
 )
 
 
