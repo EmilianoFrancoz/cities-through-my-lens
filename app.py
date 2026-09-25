@@ -2,9 +2,10 @@ import streamlit as st
 import base64
 import textwrap
 
-# --------------------------------
+
+# ============================================================
 # CONFIGURACIÓN DE LA PÁGINA
-# --------------------------------
+# ============================================================
 
 st.set_page_config(
     page_title="Cities Through My Lens",
@@ -13,9 +14,9 @@ st.set_page_config(
 )
 
 
-# --------------------------------
-# CARGAR IMAGEN DE PORTADA
-# --------------------------------
+# ============================================================
+# CARGAR LA IMAGEN DE PORTADA
+# ============================================================
 
 def get_base64_image(image_path):
     with open(image_path, "rb") as image_file:
@@ -25,13 +26,15 @@ def get_base64_image(image_path):
 img = get_base64_image("DSC_0081.jpeg")
 
 
-# --------------------------------
-# ESTILOS DEL HERO
-# --------------------------------
+# ============================================================
+# ESTILOS DE LA PÁGINA
+# ============================================================
 
 st.markdown(
     f"""
 <style>
+
+/* ---------------- HERO ---------------- */
 
 .hero {{
     height: 420px;
@@ -58,23 +61,72 @@ st.markdown(
     box-sizing: border-box;
 }}
 
+
+/* Contenido del Hero */
+
 .hero-content {{
     max-width: 650px;
 }}
 
+
+/* Título */
+
 .hero-title {{
     color: white !important;
+
     font-size: 58px !important;
     font-weight: 700 !important;
+
     line-height: 1.05 !important;
     letter-spacing: -1px;
+
     margin: 0 !important;
 }}
 
+
+/* Subtítulo */
+
 .hero-subtitle {{
     color: rgba(255, 255, 255, 0.88) !important;
+
     font-size: 18px !important;
+
     margin-top: 18px !important;
+}}
+
+
+/* ---------------- MÉTRICAS ---------------- */
+
+[data-testid="stMetric"] {{
+    background-color: #161b22;
+
+    border: 1px solid #2a3038;
+    border-radius: 14px;
+
+    padding: 22px 24px;
+
+    min-height: 125px;
+}}
+
+
+/* Centrar nombre de la métrica */
+
+[data-testid="stMetricLabel"] {{
+    justify-content: center;
+}}
+
+
+/* Centrar número */
+
+[data-testid="stMetricValue"] {{
+    text-align: center;
+}}
+
+
+/* Centrar contenido */
+
+[data-testid="stMetric"] > div {{
+    text-align: center;
 }}
 
 </style>
@@ -83,27 +135,12 @@ st.markdown(
 )
 
 
-# --------------------------------
-# HERO
-# --------------------------------
+# ============================================================
+# HERO / PORTADA
+# ============================================================
 
 hero_html = """
-<div class="hero">
-
-    <div class="hero-content">
-
-        <h1 class="hero-title">
-            CITIES<br>
-            THROUGH MY LENS
-        </h1>
-
-        <p class="hero-subtitle">
-            A visual journey through the places I've photographed.
-        </p>
-
-    </div>
-
-</div>
+<div class="hero"><div class="hero-content"><h1 class="hero-title">CITIES<br>THROUGH MY LENS</h1><p class="hero-subtitle">A visual journey through the places I've photographed.</p></div></div>
 """
 
 st.markdown(
@@ -112,160 +149,48 @@ st.markdown(
 )
 
 
-# --------------------------------
-# ESTILOS DE LAS MÉTRICAS
-# --------------------------------
-
-st.markdown(
-    """
-<style>
-
-.metric-card {
-    background-color: #161b22;
-    border: 1px solid #2a3038;
-    border-radius: 14px;
-
-    padding: 22px 24px;
-
-    text-align: center;
-
-    min-height: 120px;
-}
-
-.metric-icon {
-    font-size: 25px;
-    margin-bottom: 5px;
-}
-
-.metric-number {
-    color: white;
-
-    font-size: 32px;
-    font-weight: 700;
-
-    line-height: 1.1;
-}
-
-.metric-label {
-    color: #a9b1ba;
-
-    font-size: 14px;
-
-    margin-top: 6px;
-}
-
-</style>
-""",
-    unsafe_allow_html=True
-)
-
-
-# --------------------------------
+# ============================================================
 # MÉTRICAS PRINCIPALES
-# --------------------------------
+# ============================================================
 
 col1, col2, col3, col4 = st.columns(4)
 
 
-# FOTOGRAFÍAS
+# 50 FOTOGRAFÍAS
 
 with col1:
 
-    st.markdown(
-        """
-<div class="metric-card">
-
-    <div class="metric-icon">
-        📷
-    </div>
-
-    <div class="metric-number">
-        50
-    </div>
-
-    <div class="metric-label">
-        Fotografías
-    </div>
-
-</div>
-""",
-        unsafe_allow_html=True
+    st.metric(
+        label="📷 Fotografías",
+        value="50"
     )
 
 
-# LUGARES
+# 4 LUGARES
 
 with col2:
 
-    st.markdown(
-        """
-<div class="metric-card">
-
-    <div class="metric-icon">
-        📍
-    </div>
-
-    <div class="metric-number">
-        4
-    </div>
-
-    <div class="metric-label">
-        Lugares
-    </div>
-
-</div>
-""",
-        unsafe_allow_html=True
+    st.metric(
+        label="📍 Lugares",
+        value="4"
     )
 
 
-# CATEGORÍAS
+# 4 CATEGORÍAS
 
 with col3:
 
-    st.markdown(
-        """
-<div class="metric-card">
-
-    <div class="metric-icon">
-        🖼️
-    </div>
-
-    <div class="metric-number">
-        4
-    </div>
-
-    <div class="metric-label">
-        Categorías
-    </div>
-
-</div>
-""",
-        unsafe_allow_html=True
+    st.metric(
+        label="🖼️ Categorías",
+        value="4"
     )
 
 
-# HISTORIA VISUAL
+# 1 HISTORIA VISUAL
 
 with col4:
 
-    st.markdown(
-        """
-<div class="metric-card">
-
-    <div class="metric-icon">
-        ✨
-    </div>
-
-    <div class="metric-number">
-        1
-    </div>
-
-    <div class="metric-label">
-        Historia visual
-    </div>
-
-</div>
-""",
-        unsafe_allow_html=True
+    st.metric(
+        label="✨ Historia visual",
+        value="1"
     )
