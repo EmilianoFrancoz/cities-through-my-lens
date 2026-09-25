@@ -220,7 +220,7 @@ places = pd.DataFrame({
         "New York",
         "Connecticut",
         "Madrid",
-        "La Paz"
+        "La Paz, BCS"
     ],
 
     "Fotografías": [
@@ -231,17 +231,17 @@ places = pd.DataFrame({
     ],
 
     "Latitud": [
-        40.7128,
-        41.6032,
-        40.4168,
-        -16.4897
+        40.7128,     # New York
+        41.6032,     # Connecticut
+        40.4168,     # Madrid
+        24.1426      # La Paz, Baja California Sur
     ],
 
     "Longitud": [
-        -74.0060,
-        -73.0877,
-        -3.7038,
-        -68.1193
+        -74.0060,    # New York
+        -73.0877,    # Connecticut
+        -3.7038,     # Madrid
+        -110.3128    # La Paz, Baja California Sur
     ]
 })
 
