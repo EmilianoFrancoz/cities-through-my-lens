@@ -248,22 +248,6 @@ places = pd.DataFrame({
 
 
 # ============================================================
-# COLORES DE LOS LUGARES
-# ============================================================
-
-place_colors = {
-
-    "New York": "#00BFFF",
-
-    "Connecticut": "#2ECC71",
-
-    "Madrid": "#FF9F43",
-
-    "La Paz, BCS": "#FF4FA3"
-}
-
-
-# ============================================================
 # MAPA INTERACTIVO
 # ============================================================
 
@@ -273,10 +257,6 @@ fig = px.scatter_geo(
 
     lat="Latitud",
     lon="Longitud",
-
-    color="Lugar",
-
-    color_discrete_map=place_colors,
 
     hover_name="Lugar",
 
@@ -288,51 +268,65 @@ fig = px.scatter_geo(
 
     size="Fotografías",
 
-    size_max=24,
+    size_max=25,
 
     projection="natural earth"
 )
 
 
 # ============================================================
-# ESTILO DEL MAPA
+# COLORES DEL MAPA
 # ============================================================
 
 fig.update_geos(
 
+    # Tierra
     showland=True,
-    landcolor="#202833",
+    landcolor="#2F6B6D",
 
+    # Océanos
     showocean=True,
-    oceancolor="#0E1117",
+    oceancolor="#101C2C",
 
+    # Lagos
     showlakes=True,
-    lakecolor="#111827",
+    lakecolor="#173A5E",
 
+    # Fronteras entre países
     showcountries=True,
-    countrycolor="#59636F",
+    countrycolor="#A9C5C7",
 
+    # Costas
     showcoastlines=True,
-    coastlinecolor="#687482",
+    coastlinecolor="#D1E3E4",
 
+    # Fondo
     bgcolor="#0E1117"
 )
 
 
 # ============================================================
-# ESTILO DE LOS PUNTOS
+# DISEÑO DE LOS PUNTOS
 # ============================================================
 
 fig.update_traces(
 
     marker=dict(
 
-        line=dict(
-            width=1.5,
-            color="white"
-        ),
+        color="#38BDF8",
 
-        opacity=0.9
+        opacity=0.95,
+
+        line=dict(
+            width=2,
+            color="white"
+        )
+    ),
+
+    hovertemplate=(
+        "<b>%{hovertext}</b><br>"
+        "Fotografías: %{marker.size}"
+        "<extra></extra>"
     )
 )
 
@@ -348,8 +342,8 @@ fig.update_layout(
     margin=dict(
         l=0,
         r=0,
-        t=20,
-        b=10
+        t=10,
+        b=0
     ),
 
     paper_bgcolor="#0E1117",
@@ -360,33 +354,7 @@ fig.update_layout(
         color="white"
     ),
 
-    legend=dict(
-
-        title="Places",
-
-        orientation="h",
-
-        yanchor="bottom",
-        y=0.01,
-
-        xanchor="center",
-        x=0.5,
-
-        bgcolor="rgba(14,17,23,0.75)"
-    )
-)
-
-
-# ============================================================
-# PERSONALIZAR HOVER
-# ============================================================
-
-fig.update_traces(
-
-    hovertemplate=
-        "<b>%{hovertext}</b><br>"
-        "Photographs: %{marker.size}"
-        "<extra></extra>"
+    showlegend=False
 )
 
 
