@@ -12,23 +12,27 @@ st.set_page_config(
     layout="wide"
 )
 
+
 # --------------------------------
-# CARGAR IMAGEN
+# CARGAR IMAGEN DE PORTADA
 # --------------------------------
 
 def get_base64_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode()
 
+
 img = get_base64_image("DSC_0081.jpeg")
 
+
 # --------------------------------
-# ESTILOS
+# ESTILOS DEL HERO
 # --------------------------------
 
 st.markdown(
     f"""
 <style>
+
 .hero {{
     height: 420px;
     border-radius: 18px;
@@ -72,10 +76,12 @@ st.markdown(
     font-size: 18px !important;
     margin-top: 18px !important;
 }}
+
 </style>
 """,
     unsafe_allow_html=True
 )
+
 
 # --------------------------------
 # HERO
@@ -83,15 +89,20 @@ st.markdown(
 
 hero_html = """
 <div class="hero">
+
     <div class="hero-content">
+
         <h1 class="hero-title">
             CITIES<br>
             THROUGH MY LENS
         </h1>
+
         <p class="hero-subtitle">
             A visual journey through the places I've photographed.
         </p>
+
     </div>
+
 </div>
 """
 
@@ -99,3 +110,162 @@ st.markdown(
     textwrap.dedent(hero_html),
     unsafe_allow_html=True
 )
+
+
+# --------------------------------
+# ESTILOS DE LAS MÉTRICAS
+# --------------------------------
+
+st.markdown(
+    """
+<style>
+
+.metric-card {
+    background-color: #161b22;
+    border: 1px solid #2a3038;
+    border-radius: 14px;
+
+    padding: 22px 24px;
+
+    text-align: center;
+
+    min-height: 120px;
+}
+
+.metric-icon {
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+.metric-number {
+    color: white;
+
+    font-size: 32px;
+    font-weight: 700;
+
+    line-height: 1.1;
+}
+
+.metric-label {
+    color: #a9b1ba;
+
+    font-size: 14px;
+
+    margin-top: 6px;
+}
+
+</style>
+""",
+    unsafe_allow_html=True
+)
+
+
+# --------------------------------
+# MÉTRICAS PRINCIPALES
+# --------------------------------
+
+col1, col2, col3, col4 = st.columns(4)
+
+
+# FOTOGRAFÍAS
+
+with col1:
+
+    st.markdown(
+        """
+<div class="metric-card">
+
+    <div class="metric-icon">
+        📷
+    </div>
+
+    <div class="metric-number">
+        50
+    </div>
+
+    <div class="metric-label">
+        Fotografías
+    </div>
+
+</div>
+""",
+        unsafe_allow_html=True
+    )
+
+
+# LUGARES
+
+with col2:
+
+    st.markdown(
+        """
+<div class="metric-card">
+
+    <div class="metric-icon">
+        📍
+    </div>
+
+    <div class="metric-number">
+        4
+    </div>
+
+    <div class="metric-label">
+        Lugares
+    </div>
+
+</div>
+""",
+        unsafe_allow_html=True
+    )
+
+
+# CATEGORÍAS
+
+with col3:
+
+    st.markdown(
+        """
+<div class="metric-card">
+
+    <div class="metric-icon">
+        🖼️
+    </div>
+
+    <div class="metric-number">
+        4
+    </div>
+
+    <div class="metric-label">
+        Categorías
+    </div>
+
+</div>
+""",
+        unsafe_allow_html=True
+    )
+
+
+# HISTORIA VISUAL
+
+with col4:
+
+    st.markdown(
+        """
+<div class="metric-card">
+
+    <div class="metric-icon">
+        ✨
+    </div>
+
+    <div class="metric-number">
+        1
+    </div>
+
+    <div class="metric-label">
+        Historia visual
+    </div>
+
+</div>
+""",
+        unsafe_allow_html=True
+    )
