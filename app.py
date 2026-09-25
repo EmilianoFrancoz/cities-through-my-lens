@@ -1,6 +1,8 @@
 import streamlit as st
 import base64
 import textwrap
+import pandas as pd
+import plotly.express as px
 
 
 # ============================================================
@@ -69,7 +71,7 @@ st.markdown(
 }}
 
 
-/* Título */
+/* Título principal */
 
 .hero-title {{
     color: white !important;
@@ -109,28 +111,22 @@ st.markdown(
 }}
 
 
-/* Centrar nombre */
-
 [data-testid="stMetricLabel"] {{
     justify-content: center;
 }}
 
-
-/* Centrar número */
 
 [data-testid="stMetricValue"] {{
     text-align: center;
 }}
 
 
-/* Centrar contenido */
-
 [data-testid="stMetric"] > div {{
     text-align: center;
 }}
 
 
-/* ---------------- SECCIÓN JOURNEY ---------------- */
+/* ---------------- EXPLORE THE JOURNEY ---------------- */
 
 .journey-title {{
     color: white !important;
@@ -149,7 +145,7 @@ st.markdown(
     font-size: 16px !important;
 
     margin-top: 0 !important;
-    margin-bottom: 25px !important;
+    margin-bottom: 20px !important;
 }}
 
 </style>
@@ -179,8 +175,6 @@ st.markdown(
 col1, col2, col3 = st.columns(3)
 
 
-# 50 FOTOGRAFÍAS
-
 with col1:
     st.metric(
         label="📷 Fotografías",
@@ -188,16 +182,12 @@ with col1:
     )
 
 
-# 4 LUGARES
-
 with col2:
     st.metric(
         label="📍 Lugares",
         value="4"
     )
 
-
-# 4 CATEGORÍAS
 
 with col3:
     st.metric(
@@ -218,4 +208,129 @@ journey_html = """
 st.markdown(
     textwrap.dedent(journey_html),
     unsafe_allow_html=True
+)
+
+
+# ============================================================
+# DATOS DE LOS LUGARES
+# ============================================================
+
+places = pd.DataFrame({
+    "Lugar": [
+        "New York",
+        "Connecticut",
+        "Madrid",
+        "La Paz"
+    ],
+
+    "Fotografías": [
+        15,
+        12,
+        12,
+        11
+    ],
+
+    "Latitud": [
+        40.7128,
+        41.6032,
+        40.4168,
+        -16.4897
+    ],
+
+    "Longitud": [
+        -74.0060,
+        -73.0877,
+        -3.7038,
+        -68.1193
+    ]
+})
+
+
+# ============================================================
+# MAPA INTERACTIVO
+# ============================================================
+
+fig = px.scatter_geo(
+    places,
+
+    lat="Latitud",
+    lon="Longitud",
+
+    hover_name="Lugar",
+
+    hover_data={
+        "Fotografías": True,
+        "Latitud": False,
+        "Longitud": False
+    },
+
+    size="Fotografías",
+
+    projection="natural earth"
+)
+
+
+# ============================================================
+# DISEÑO DEL MAPA
+# ============================================================
+
+fig.update_geos(
+
+    showland=True,
+    landcolor="#1b222b",
+
+    showocean=True,
+    oceancolor="#0e1117",
+
+    showcountries=True,
+    countrycolor="#3a424c",
+
+    showcoastlines=True,
+    coastlinecolor="#4b5563",
+
+    bgcolor="#0e1117"
+)
+
+
+fig.update_traces(
+
+    marker=dict(
+        line=dict(
+            width=1,
+            color="white"
+        )
+    )
+)
+
+
+fig.update_layout(
+
+    height=520,
+
+    margin=dict(
+        l=0,
+        r=0,
+        t=10,
+        b=0
+    ),
+
+    paper_bgcolor="#0e1117",
+    plot_bgcolor="#0e1117",
+
+    font=dict(
+        color="white"
+    )
+)
+
+
+# ============================================================
+# MOSTRAR MAPA
+# ============================================================
+
+st.plotly_chart(
+    fig,
+    use_container_width=True,
+    config={
+        "displayModeBar": False
+    }
 )
