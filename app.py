@@ -1,6 +1,5 @@
 import streamlit as st
 import base64
-import textwrap
 import pandas as pd
 import plotly.express as px
 
@@ -92,8 +91,10 @@ st.markdown(
     color: rgba(255, 255, 255, 0.88) !important;
 
     font-size: 18px !important;
+    line-height: 1.5 !important;
 
     margin-top: 18px !important;
+    margin-bottom: 0 !important;
 }}
 
 
@@ -162,7 +163,7 @@ st.markdown(
     padding: 24px 28px;
 
     margin-top: 15px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }}
 
 
@@ -180,6 +181,7 @@ st.markdown(
     color: #a9b1ba !important;
 
     font-size: 16px !important;
+    line-height: 1.6 !important;
 
     margin: 0 !important;
 }}
@@ -194,23 +196,10 @@ st.markdown(
 # HERO / PORTADA
 # ============================================================
 
-hero_html = """
-<div class="hero">
-    <div class="hero-content">
-        <h1 class="hero-title">
-            CITIES<br>
-            THROUGH MY LENS
-        </h1>
-
-        <p class="hero-subtitle">
-            A visual journey through the places I've photographed.
-        </p>
-    </div>
-</div>
-"""
+hero_html = f"""<div class="hero"><div class="hero-content"><h1 class="hero-title">CITIES<br>THROUGH MY LENS</h1><p class="hero-subtitle">A visual journey through the places I've photographed.</p></div></div>"""
 
 st.markdown(
-    textwrap.dedent(hero_html),
+    hero_html,
     unsafe_allow_html=True
 )
 
@@ -247,18 +236,13 @@ with col3:
 # EXPLORE THE JOURNEY
 # ============================================================
 
-journey_html = """
-<h2 class="section-title">
-    Explore the Journey
-</h2>
-
-<p class="section-subtitle">
-    Discover the places behind the photographs.
-</p>
-"""
+st.markdown(
+    '<h2 class="section-title">Explore the Journey</h2>',
+    unsafe_allow_html=True
+)
 
 st.markdown(
-    textwrap.dedent(journey_html),
+    '<p class="section-subtitle">Discover the places behind the photographs.</p>',
     unsafe_allow_html=True
 )
 
@@ -352,21 +336,27 @@ fig = px.scatter_geo(
 
 fig.update_geos(
 
+    # Tierra
     showland=True,
     landcolor="#2F6B6D",
 
+    # Océanos
     showocean=True,
     oceancolor="#101C2C",
 
+    # Lagos
     showlakes=True,
     lakecolor="#173A5E",
 
+    # Fronteras
     showcountries=True,
     countrycolor="#A9C5C7",
 
+    # Costas
     showcoastlines=True,
     coastlinecolor="#D1E3E4",
 
+    # Fondo
     bgcolor="#0E1117"
 )
 
@@ -449,18 +439,13 @@ st.plotly_chart(
 # WHAT DO I PHOTOGRAPH?
 # ============================================================
 
-categories_html = """
-<h2 class="section-title">
-    What Do I Photograph?
-</h2>
-
-<p class="section-subtitle">
-    Exploring the visual themes behind my photography.
-</p>
-"""
+st.markdown(
+    '<h2 class="section-title">What Do I Photograph?</h2>',
+    unsafe_allow_html=True
+)
 
 st.markdown(
-    textwrap.dedent(categories_html),
+    '<p class="section-subtitle">Exploring the visual themes behind my photography.</p>',
     unsafe_allow_html=True
 )
 
@@ -495,6 +480,10 @@ categories["Porcentaje"] = (
     * 100
 )
 
+
+# ============================================================
+# CREAR ETIQUETAS
+# ============================================================
 
 categories["Etiqueta"] = (
     categories["Fotografías"].astype(str)
@@ -555,6 +544,7 @@ category_fig.update_traces(
     cliponaxis=False,
 
     marker=dict(
+
         line=dict(
             width=1,
             color="rgba(255,255,255,0.4)"
@@ -670,22 +660,9 @@ st.plotly_chart(
 # STORYTELLING / INSIGHT
 # ============================================================
 
-insight_html = """
-<div class="insight-box">
-
-    <p class="insight-title">
-        📸 Street Photography leads the story.
-    </p>
-
-    <p class="insight-text">
-        44% of the collection focuses on street photography,
-        capturing cities, streets and everyday urban moments.
-    </p>
-
-</div>
-"""
+insight_html = """<div class="insight-box"><p class="insight-title">📸 Street Photography leads the story.</p><p class="insight-text">44% of the collection focuses on street photography, capturing cities, streets and everyday urban moments.</p></div>"""
 
 st.markdown(
-    textwrap.dedent(insight_html),
+    insight_html,
     unsafe_allow_html=True
 )
