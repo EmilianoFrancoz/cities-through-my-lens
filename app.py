@@ -126,9 +126,9 @@ st.markdown(
 }}
 
 
-/* ---------------- EXPLORE THE JOURNEY ---------------- */
+/* ---------------- TÍTULOS DE SECCIONES ---------------- */
 
-.journey-title {{
+.section-title {{
     color: white !important;
 
     font-size: 34px !important;
@@ -139,13 +139,49 @@ st.markdown(
 }}
 
 
-.journey-subtitle {{
+.section-subtitle {{
     color: #a9b1ba !important;
 
     font-size: 16px !important;
 
     margin-top: 0 !important;
     margin-bottom: 20px !important;
+}}
+
+
+/* ---------------- INSIGHT ---------------- */
+
+.insight-box {{
+    background-color: #161b22;
+
+    border: 1px solid #2a3038;
+    border-left: 5px solid #00BFFF;
+
+    border-radius: 14px;
+
+    padding: 24px 28px;
+
+    margin-top: 15px;
+    margin-bottom: 30px;
+}}
+
+
+.insight-title {{
+    color: white !important;
+
+    font-size: 20px !important;
+    font-weight: 700 !important;
+
+    margin: 0 0 8px 0 !important;
+}}
+
+
+.insight-text {{
+    color: #a9b1ba !important;
+
+    font-size: 16px !important;
+
+    margin: 0 !important;
 }}
 
 </style>
@@ -159,7 +195,18 @@ st.markdown(
 # ============================================================
 
 hero_html = """
-<div class="hero"><div class="hero-content"><h1 class="hero-title">CITIES<br>THROUGH MY LENS</h1><p class="hero-subtitle">A visual journey through the places I've photographed.</p></div></div>
+<div class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">
+            CITIES<br>
+            THROUGH MY LENS
+        </h1>
+
+        <p class="hero-subtitle">
+            A visual journey through the places I've photographed.
+        </p>
+    </div>
+</div>
 """
 
 st.markdown(
@@ -192,7 +239,7 @@ with col2:
 with col3:
     st.metric(
         label="🖼️ Categorías",
-        value="4"
+        value="3"
     )
 
 
@@ -201,8 +248,13 @@ with col3:
 # ============================================================
 
 journey_html = """
-<h2 class="journey-title">Explore the Journey</h2>
-<p class="journey-subtitle">Discover the places behind the photographs.</p>
+<h2 class="section-title">
+    Explore the Journey
+</h2>
+
+<p class="section-subtitle">
+    Discover the places behind the photographs.
+</p>
 """
 
 st.markdown(
@@ -274,12 +326,10 @@ fig = px.scatter_geo(
     lat="Latitud",
     lon="Longitud",
 
-    # Cada lugar tendrá un color diferente
     color="Lugar",
 
     color_discrete_map=place_colors,
 
-    # Información al pasar el cursor
     hover_name="Lugar",
 
     hover_data={
@@ -288,7 +338,6 @@ fig = px.scatter_geo(
         "Longitud": False
     },
 
-    # El tamaño representa la cantidad de fotografías
     size="Fotografías",
 
     size_max=25,
@@ -303,27 +352,21 @@ fig = px.scatter_geo(
 
 fig.update_geos(
 
-    # Tierra
     showland=True,
     landcolor="#2F6B6D",
 
-    # Océanos
     showocean=True,
     oceancolor="#101C2C",
 
-    # Lagos
     showlakes=True,
     lakecolor="#173A5E",
 
-    # Fronteras
     showcountries=True,
     countrycolor="#A9C5C7",
 
-    # Costas
     showcoastlines=True,
     coastlinecolor="#D1E3E4",
 
-    # Fondo general
     bgcolor="#0E1117"
 )
 
@@ -369,7 +412,6 @@ fig.update_layout(
         color="white"
     ),
 
-    # Leyenda
     legend=dict(
 
         title="Lugares",
@@ -400,4 +442,250 @@ st.plotly_chart(
     config={
         "displayModeBar": False
     }
+)
+
+
+# ============================================================
+# WHAT DO I PHOTOGRAPH?
+# ============================================================
+
+categories_html = """
+<h2 class="section-title">
+    What Do I Photograph?
+</h2>
+
+<p class="section-subtitle">
+    Exploring the visual themes behind my photography.
+</p>
+"""
+
+st.markdown(
+    textwrap.dedent(categories_html),
+    unsafe_allow_html=True
+)
+
+
+# ============================================================
+# DATOS DE LAS CATEGORÍAS
+# ============================================================
+
+categories = pd.DataFrame({
+
+    "Categoría": [
+        "Street Photography",
+        "Landscape",
+        "Architecture"
+    ],
+
+    "Fotografías": [
+        22,
+        15,
+        13
+    ]
+})
+
+
+# ============================================================
+# CALCULAR PORCENTAJES
+# ============================================================
+
+categories["Porcentaje"] = (
+    categories["Fotografías"]
+    / categories["Fotografías"].sum()
+    * 100
+)
+
+
+categories["Etiqueta"] = (
+    categories["Fotografías"].astype(str)
+    + " photos · "
+    + categories["Porcentaje"].round(0).astype(int).astype(str)
+    + "%"
+)
+
+
+# ============================================================
+# COLORES DE LAS CATEGORÍAS
+# ============================================================
+
+category_colors = {
+
+    "Street Photography": "#00BFFF",
+
+    "Landscape": "#2ECC71",
+
+    "Architecture": "#FF9F43"
+}
+
+
+# ============================================================
+# GRÁFICA DE BARRAS HORIZONTAL
+# ============================================================
+
+category_fig = px.bar(
+
+    categories,
+
+    x="Fotografías",
+
+    y="Categoría",
+
+    color="Categoría",
+
+    color_discrete_map=category_colors,
+
+    text="Etiqueta",
+
+    orientation="h",
+
+    custom_data=[
+        "Porcentaje"
+    ]
+)
+
+
+# ============================================================
+# PERSONALIZAR BARRAS
+# ============================================================
+
+category_fig.update_traces(
+
+    textposition="outside",
+
+    cliponaxis=False,
+
+    marker=dict(
+        line=dict(
+            width=1,
+            color="rgba(255,255,255,0.4)"
+        )
+    ),
+
+    hovertemplate=(
+        "<b>%{y}</b><br>"
+        "Photographs: %{x}<br>"
+        "Percentage: %{customdata[0]:.0f}%"
+        "<extra></extra>"
+    )
+)
+
+
+# ============================================================
+# ORDEN DE LAS CATEGORÍAS
+# ============================================================
+
+category_fig.update_yaxes(
+
+    categoryorder="array",
+
+    categoryarray=[
+        "Architecture",
+        "Landscape",
+        "Street Photography"
+    ],
+
+    title=None,
+
+    tickfont=dict(
+        color="white",
+        size=14
+    ),
+
+    showgrid=False
+)
+
+
+# ============================================================
+# DISEÑO DEL EJE X
+# ============================================================
+
+category_fig.update_xaxes(
+
+    title="Number of photographs",
+
+    range=[0, 27],
+
+    showgrid=True,
+
+    gridcolor="rgba(255,255,255,0.08)",
+
+    zeroline=False,
+
+    tickfont=dict(
+        color="#a9b1ba"
+    ),
+
+    title_font=dict(
+        color="#a9b1ba"
+    )
+)
+
+
+# ============================================================
+# DISEÑO GENERAL DE LA GRÁFICA
+# ============================================================
+
+category_fig.update_layout(
+
+    height=420,
+
+    margin=dict(
+        l=20,
+        r=90,
+        t=20,
+        b=50
+    ),
+
+    paper_bgcolor="#0E1117",
+
+    plot_bgcolor="#0E1117",
+
+    font=dict(
+        color="white"
+    ),
+
+    showlegend=False,
+
+    bargap=0.35
+)
+
+
+# ============================================================
+# MOSTRAR GRÁFICA
+# ============================================================
+
+st.plotly_chart(
+
+    category_fig,
+
+    use_container_width=True,
+
+    config={
+        "displayModeBar": False
+    }
+)
+
+
+# ============================================================
+# STORYTELLING / INSIGHT
+# ============================================================
+
+insight_html = """
+<div class="insight-box">
+
+    <p class="insight-title">
+        📸 Street Photography leads the story.
+    </p>
+
+    <p class="insight-text">
+        44% of the collection focuses on street photography,
+        capturing cities, streets and everyday urban moments.
+    </p>
+
+</div>
+"""
+
+st.markdown(
+    textwrap.dedent(insight_html),
+    unsafe_allow_html=True
 )
