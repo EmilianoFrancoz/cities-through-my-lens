@@ -16,7 +16,7 @@ st.set_page_config(
 
 
 # ============================================================
-# CARGAR LA IMAGEN DE PORTADA
+# CARGAR IMAGEN DE PORTADA
 # ============================================================
 
 def get_base64_image(image_path):
@@ -28,7 +28,7 @@ img = get_base64_image("DSC_0081.jpeg")
 
 
 # ============================================================
-# ESTILOS DE LA PÁGINA
+# ESTILOS CSS
 # ============================================================
 
 st.markdown(
@@ -63,14 +63,10 @@ st.markdown(
 }}
 
 
-/* Contenido del Hero */
-
 .hero-content {{
     max-width: 650px;
 }}
 
-
-/* Título principal */
 
 .hero-title {{
     color: white !important;
@@ -84,8 +80,6 @@ st.markdown(
     margin: 0 !important;
 }}
 
-
-/* Subtítulo */
 
 .hero-subtitle {{
     color: rgba(255, 255, 255, 0.88) !important;
@@ -127,7 +121,7 @@ st.markdown(
 }}
 
 
-/* ---------------- TÍTULOS DE SECCIONES ---------------- */
+/* ---------------- SECCIONES ---------------- */
 
 .section-title {{
     color: white !important;
@@ -196,7 +190,7 @@ st.markdown(
 # HERO / PORTADA
 # ============================================================
 
-hero_html = f"""<div class="hero"><div class="hero-content"><h1 class="hero-title">CITIES<br>THROUGH MY LENS</h1><p class="hero-subtitle">A visual journey through the places I've photographed.</p></div></div>"""
+hero_html = """<div class="hero"><div class="hero-content"><h1 class="hero-title">CITIES<br>THROUGH MY LENS</h1><p class="hero-subtitle">A visual journey through the places I've photographed.</p></div></div>"""
 
 st.markdown(
     hero_html,
@@ -227,7 +221,7 @@ with col2:
 
 with col3:
     st.metric(
-        label="🖼️ Categorías",
+        label="🌎 Países",
         value="3"
     )
 
@@ -268,17 +262,17 @@ places = pd.DataFrame({
     ],
 
     "Latitud": [
-        40.7128,     # New York
-        41.6032,     # Connecticut
-        40.4168,     # Madrid
-        24.1426      # La Paz, Baja California Sur
+        40.7128,
+        41.6032,
+        40.4168,
+        24.1426
     ],
 
     "Longitud": [
-        -74.0060,    # New York
-        -73.0877,    # Connecticut
-        -3.7038,     # Madrid
-        -110.3128    # La Paz, Baja California Sur
+        -74.0060,
+        -73.0877,
+        -3.7038,
+        -110.3128
     ]
 })
 
@@ -303,7 +297,7 @@ place_colors = {
 # MAPA INTERACTIVO
 # ============================================================
 
-fig = px.scatter_geo(
+map_fig = px.scatter_geo(
 
     places,
 
@@ -334,29 +328,23 @@ fig = px.scatter_geo(
 # COLORES DEL MAPA
 # ============================================================
 
-fig.update_geos(
+map_fig.update_geos(
 
-    # Tierra
     showland=True,
     landcolor="#2F6B6D",
 
-    # Océanos
     showocean=True,
     oceancolor="#101C2C",
 
-    # Lagos
     showlakes=True,
     lakecolor="#173A5E",
 
-    # Fronteras
     showcountries=True,
     countrycolor="#A9C5C7",
 
-    # Costas
     showcoastlines=True,
     coastlinecolor="#D1E3E4",
 
-    # Fondo
     bgcolor="#0E1117"
 )
 
@@ -365,7 +353,7 @@ fig.update_geos(
 # ESTILO DE LOS PUNTOS
 # ============================================================
 
-fig.update_traces(
+map_fig.update_traces(
 
     marker=dict(
 
@@ -380,10 +368,10 @@ fig.update_traces(
 
 
 # ============================================================
-# DISEÑO GENERAL DEL MAPA
+# DISEÑO DEL MAPA
 # ============================================================
 
-fig.update_layout(
+map_fig.update_layout(
 
     height=540,
 
@@ -425,7 +413,7 @@ fig.update_layout(
 
 st.plotly_chart(
 
-    fig,
+    map_fig,
 
     use_container_width=True,
 
@@ -436,47 +424,35 @@ st.plotly_chart(
 
 
 # ============================================================
-# WHAT DO I PHOTOGRAPH?
+# WHERE DID I PHOTOGRAPH?
 # ============================================================
 
 st.markdown(
-    '<h2 class="section-title">What Do I Photograph?</h2>',
+    '<h2 class="section-title">Where Did I Photograph?</h2>',
     unsafe_allow_html=True
 )
 
 st.markdown(
-    '<p class="section-subtitle">Exploring the visual themes behind my photography.</p>',
+    '<p class="section-subtitle">Comparing the number of photographs captured in each place.</p>',
     unsafe_allow_html=True
 )
-
-
-# ============================================================
-# DATOS DE LAS CATEGORÍAS
-# ============================================================
-
-categories = pd.DataFrame({
-
-    "Categoría": [
-        "Street Photography",
-        "Landscape",
-        "Architecture"
-    ],
-
-    "Fotografías": [
-        22,
-        15,
-        13
-    ]
-})
 
 
 # ============================================================
 # CALCULAR PORCENTAJES
 # ============================================================
 
-categories["Porcentaje"] = (
-    categories["Fotografías"]
-    / categories["Fotografías"].sum()
+places_chart = places[
+    [
+        "Lugar",
+        "Fotografías"
+    ]
+].copy()
+
+
+places_chart["Porcentaje"] = (
+    places_chart["Fotografías"]
+    / places_chart["Fotografías"].sum()
     * 100
 )
 
@@ -485,43 +461,29 @@ categories["Porcentaje"] = (
 # CREAR ETIQUETAS
 # ============================================================
 
-categories["Etiqueta"] = (
-    categories["Fotografías"].astype(str)
+places_chart["Etiqueta"] = (
+    places_chart["Fotografías"].astype(str)
     + " photos · "
-    + categories["Porcentaje"].round(0).astype(int).astype(str)
+    + places_chart["Porcentaje"].round(0).astype(int).astype(str)
     + "%"
 )
 
 
 # ============================================================
-# COLORES DE LAS CATEGORÍAS
+# GRÁFICA DE FOTOGRAFÍAS POR LUGAR
 # ============================================================
 
-category_colors = {
+places_fig = px.bar(
 
-    "Street Photography": "#00BFFF",
-
-    "Landscape": "#2ECC71",
-
-    "Architecture": "#FF9F43"
-}
-
-
-# ============================================================
-# GRÁFICA DE BARRAS HORIZONTAL
-# ============================================================
-
-category_fig = px.bar(
-
-    categories,
+    places_chart,
 
     x="Fotografías",
 
-    y="Categoría",
+    y="Lugar",
 
-    color="Categoría",
+    color="Lugar",
 
-    color_discrete_map=category_colors,
+    color_discrete_map=place_colors,
 
     text="Etiqueta",
 
@@ -534,10 +496,10 @@ category_fig = px.bar(
 
 
 # ============================================================
-# PERSONALIZAR BARRAS
+# ESTILO DE LAS BARRAS
 # ============================================================
 
-category_fig.update_traces(
+places_fig.update_traces(
 
     textposition="outside",
 
@@ -561,17 +523,18 @@ category_fig.update_traces(
 
 
 # ============================================================
-# ORDEN DE LAS CATEGORÍAS
+# ORDEN DE LOS LUGARES
 # ============================================================
 
-category_fig.update_yaxes(
+places_fig.update_yaxes(
 
     categoryorder="array",
 
     categoryarray=[
-        "Architecture",
-        "Landscape",
-        "Street Photography"
+        "La Paz, BCS",
+        "Madrid",
+        "Connecticut",
+        "New York"
     ],
 
     title=None,
@@ -586,20 +549,22 @@ category_fig.update_yaxes(
 
 
 # ============================================================
-# DISEÑO DEL EJE X
+# EJE X
 # ============================================================
 
-category_fig.update_xaxes(
+places_fig.update_xaxes(
 
     title="Number of photographs",
 
-    range=[0, 27],
+    range=[0, 19],
 
     showgrid=True,
 
     gridcolor="rgba(255,255,255,0.08)",
 
     zeroline=False,
+
+    dtick=5,
 
     tickfont=dict(
         color="#a9b1ba"
@@ -615,13 +580,13 @@ category_fig.update_xaxes(
 # DISEÑO GENERAL DE LA GRÁFICA
 # ============================================================
 
-category_fig.update_layout(
+places_fig.update_layout(
 
-    height=420,
+    height=470,
 
     margin=dict(
         l=20,
-        r=90,
+        r=100,
         t=20,
         b=50
     ),
@@ -636,7 +601,7 @@ category_fig.update_layout(
 
     showlegend=False,
 
-    bargap=0.35
+    bargap=0.30
 )
 
 
@@ -646,7 +611,7 @@ category_fig.update_layout(
 
 st.plotly_chart(
 
-    category_fig,
+    places_fig,
 
     use_container_width=True,
 
@@ -660,7 +625,7 @@ st.plotly_chart(
 # STORYTELLING / INSIGHT
 # ============================================================
 
-insight_html = """<div class="insight-box"><p class="insight-title">📸 Street Photography leads the story.</p><p class="insight-text">44% of the collection focuses on street photography, capturing cities, streets and everyday urban moments.</p></div>"""
+insight_html = """<div class="insight-box"><p class="insight-title">📍 New York leads the journey.</p><p class="insight-text">With 15 photographs, New York represents 30% of the collection, making it the most photographed place in this visual journey.</p></div>"""
 
 st.markdown(
     insight_html,
